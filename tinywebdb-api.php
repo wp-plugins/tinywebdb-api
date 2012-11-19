@@ -7,7 +7,7 @@ Description: a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebD
     Get Value     {ServiceURL}/getvalue    tag              JSON: ["VALUE","{tag}", {value}] 
     Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}] 
 Author: Hong Chen
-Author URI: http://chenlab.net/
+Author URI: http://digilib.net/
 Version: 0.1.3
 */
 
