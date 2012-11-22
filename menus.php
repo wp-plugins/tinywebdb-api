@@ -22,6 +22,41 @@ function wp_tinywebdb_api_optionsmenu() {
 	echo '<table class="form-table">';
 	?>
 
+	<h3>Controllers</h3>
+
+        <table id="all-plugins-table" class="widefat">
+      <thead>
+        <tr>
+          <th class="manage-column check-column" scope="col"></th>
+          <th class="manage-column" scope="col">Controller</th>
+          <th class="manage-column" scope="col">Description</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th class="manage-column check-column" scope="col"></th>
+          <th class="manage-column" scope="col">Controller</th>
+          <th class="manage-column" scope="col">Description</th>
+        </tr>
+      </tfoot>
+      <tbody class="plugins">
+                  <tr class="active">
+            <th class="check-column" scope="row">
+              <input type="checkbox" name="controllers[]" value="core" />
+            </th>
+            <td class="plugin-title">
+              <strong>Core</strong>
+              <div class="row-actions-visible">
+                <a href="options-general.php?page=json-api&amp;action=deactivate&amp;controller=core&amp;_wpnonce=0e3d72a68d" title="Deactivate this controller" class="edit">í‚é~</a>            </td>
+            <td class="desc">
+              <p>Basic introspection methods</p>
+
+            </td>
+          </tr>
+     </tbody>
+			  
+	<h3>Address</h3>
+
 	<tr valign="top">
 		<th scope="row">URL Trigger</th>
 		<td><input name="urltrigger" type="text" id="urltrigger" value="<?php echo $setting_url_trigger; ?>" size="50" /><br/>Change the <em>api</em> part of your TinyWebDB APIs to something else. Enter without slashes.</td>
