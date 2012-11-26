@@ -11,12 +11,15 @@ function wp_tinywebdb_api_optionsmenu() {
 
 	if ($_POST['issubmitted'] == 'yes') {
 		$post_urltrigger = $_POST['urltrigger'];
+		$post_apikey = $_POST['apikey'];
 		$post_tagtype = $_POST['tagtype'];
 		update_option("wp_tinywebdb_api_url_trigger", $post_urltrigger);
+		update_option("wp_tinywebdb_api_key", $post_apikey);
 		update_option("wp_tinywebdb_api_tag_type", $post_tagtype);
 	}
 	$setting_url_trigger = get_option("wp_tinywebdb_api_url_trigger") or $setting_url_trigger = 'api';
 	$setting_tagtype = get_option("wp_tinywebdb_api_tag_type") or $setting_tagtype = 'id';
+	$setting_apikey = get_option("wp_tinywebdb_api_key");
 
 	echo '<form method="post" action="http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . '">';
 	echo '<table class="form-table">';
@@ -42,24 +45,53 @@ function wp_tinywebdb_api_optionsmenu() {
       <tbody class="plugins">
                   <tr class="active">
             <th class="check-column" scope="row">
-              <input type="checkbox" name="controllers[]" value="core" />
             </th>
             <td class="plugin-title">
               <strong>Core</strong>
-              <div class="row-actions-visible">
-                <a href="options-general.php?page=json-api&amp;action=deactivate&amp;controller=core&amp;_wpnonce=0e3d72a68d" title="Deactivate this controller" class="edit">í‚é~</a>            </td>
+            </td>
             <td class="desc">
               <p>Basic introspection methods</p>
-
+	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/info/">info</a></code></p>
             </td>
           </tr>
+                  <tr class="active">
+            <th class="check-column" scope="row">
+            </th>
+            <td class="plugin-title">
+              <strong>Get Value</strong>
+            </td>
+            <td class="desc">
+              <p>Get dara from your post by Post ID or  Slug </p>
+	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/getvalue/">getvalue</a></code></p>
+            </td>
+          </tr>
+          </tr>
+                  <tr class="inactive">
+            <th class="check-column" scope="row">
+            </th>
+            <td class="plugin-title">
+              <strong>Store A Value</strong>
+            </td>
+            <td class="desc">
+              <p>Store data on a your post by Post ID or  Slug </p>
+	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/storeavalue/">storeavalue</a></code></p>
+            </td>
      </tbody>
+    </table>
+      <div class="clear"></div>
+    </div>
 			  
 	<h3>Address</h3>
 
-	<tr valign="top">
-		<th scope="row">URL Trigger</th>
-		<td><input name="urltrigger" type="text" id="urltrigger" value="<?php echo $setting_url_trigger; ?>" size="50" /><br/>Change the <em>api</em> part of your TinyWebDB APIs to something else. Enter without slashes.</td>
+    <table class="form-table">
+        <tr valign="top">
+            <th scope="row">API base</th>
+		<td><input name="urltrigger" type="text" id="urltrigger" value="<?php echo $setting_url_trigger; ?>" size="50" /><br/>Specify a base URL for TinyWebDB API. For example, using api as your API base URL would enable the following <?php echo get_option('home'); ?>/api/. You can change the <em>api</em> part of your TinyWebDB APIs to something else. Enter without slashes.</td>
+	</tr>
+
+        <tr valign="top">
+            <th scope="row">API Key</th>
+		<td><input name="apikey" type="text" id="apikey" value="<?php echo $setting_apikey; ?>" size="50" /><br/>Set api key to protect your TinyWebDB API. Client mast set same api key to Store A Value to your site</td>
 	</tr>
 
 	<tr valign="top">

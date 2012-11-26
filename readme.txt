@@ -6,7 +6,7 @@ Donate link: http://appinventor.in/donate/
 Tags: appinventor, tinywebdb, api
 Requires at least: 3.4
 Tested up to: 3.4.2
-Stable tag: 0.1.3
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +35,8 @@ Visit Plugin URI for detail.
 
 1. FTP the entire tinywebdb-api directory to your Wordpress blog's plugins folder (/wp-content/plugins/).
 2. Activate the plugin on the "Plugins" tab of the administration panel.
-3. Refer to the usage section of this guide.
+3. Check test URL on admin menu to make sure API work properly.
+4. Refer to Plugin URI to get sample Android test app which make by App Inventor, to create your own app.
 
 for how to use AppInventor to inventor your Android app with this plugin , visit Plugin URI for detail please.
 
@@ -73,6 +74,8 @@ Start TinyWebDB API plugin.
 First alpha release which implemented Get Value Action.
 
 = 0.2.0 =
+Release which implemented Get Value Action with API Key.
+Add test URL on admin menu.
 
 = 1.0.0 =
 

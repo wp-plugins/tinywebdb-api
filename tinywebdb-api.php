@@ -8,12 +8,12 @@ Description: a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebD
     Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}] 
 Author: Hong Chen
 Author URI: http://digilib.net/
-Version: 0.1.3
+Version: 0.2.0
 */
 
 
 define("TINYWEBDB", "tools.php?page=tinywebdb-api/tinywebdb-api.php");
-define("TINYWEBDB_VER", "0.1.3");
+define("TINYWEBDB_VER", "0.2.0");
 
 
 
@@ -130,34 +130,41 @@ function wp_tinywebdb_api_query() {
 				echo json_encode(array("VALUE", $tagName, $tagValue));
 				exit; // this stops WordPress entirely
 				break;
-//			case "storeavalue": // this action will enable from v 0.2.x
+			case "storeavalue": // this action will enable from v 0.2.x
 				// JSON_API , Post Parameters : tag,value
 				$tagName = get_query_var('tag');
-				$tagValue = get_query_var('value');
-error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " $tagName -- $tagValue");
-				// Create post object
-				$args = array(
-				  'post_title'    => wp_strip_all_tags( $tagName ),
-				  'post_content'  => $tagValue,
-				  'post_status'   => 'publish',
-				);
-
-				// Insert the post into the database
-				$postid = wp_insert_post( $args );
-				if ($postid == 0) {
-					$postid = wp_tinywebdb_api_get_postid($tagName);
+				$tagValue = get_query_var('value');	             // $_REQUEST['value']; // 
+				$apiKey = get_query_var('apikey');
+error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
+				$setting_apikey = get_option("wp_tinywebdb_api_key");
+				if ($apiKey == $setting_apikey){
+					
+					// Create post object
 					$args = array(
-					  'ID'		     => wp_strip_all_tags( $postid ),
-					  'post_content' => $tagValue,
+					  'post_title'    => wp_strip_all_tags( $tagName ),
+					  'post_content'  => $tagValue,
+					  'post_status'   => 'publish',
 					);
-					$postid = wp_update_post( $args );
-				}
-				$tagName = wp_tinywebdb_api_get_tagName($postid);
 
-				header('Cache-Control: no-cache, must-revalidate');
-				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-				header('Content-type: application/json');
-				echo json_encode(array("STORED", $tagName, $tagValue));
+					// Insert the post into the database
+					$postid = wp_insert_post( $args );
+					if ($postid == 0) {
+						$postid = wp_tinywebdb_api_get_postid($tagName);
+						$args = array(
+						  'ID'		     => wp_strip_all_tags( $postid ),
+						  'post_content' => $tagValue,
+						);
+						$postid = wp_update_post( $args );
+					}
+					$tagName = wp_tinywebdb_api_get_tagName($postid);
+
+					header('Cache-Control: no-cache, must-revalidate');
+					header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+					header('Content-type: application/json');
+					echo json_encode(array("STORED", $tagName, $tagValue));
+				} else {
+					echo "check api key.";
+				}
 			    exit;
 				break;
 			default:
