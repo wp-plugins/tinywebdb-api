@@ -8,12 +8,12 @@ Description: a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebD
     Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}] 
 Author: Hong Chen
 Author URI: http://digilib.net/
-Version: 0.2.0
+Version: 0.2.1
 */
 
 
 define("TINYWEBDB", "tools.php?page=tinywebdb-api/tinywebdb-api.php");
-define("TINYWEBDB_VER", "0.2.0");
+define("TINYWEBDB_VER", "0.2.1");
 
 
 
@@ -82,11 +82,13 @@ add_filter('query_vars', 'add_fetch');
 function add_fetch($public_query_vars) {
 	$public_query_vars[] = 'tag';
 	$public_query_vars[] = 'value';
+	$public_query_vars[] = 'apikey';
 	return $public_query_vars;
 }
 
 function wp_tinywebdb_api_query() {
 	global $wpdb, $table_prefix;
+	$bedtag = array("id" => "0", "post_author" => "0", "post_content" => "ERROR BAD tag SUPPLIED");
 
 	$request = $_SERVER['REQUEST_URI'];
 	if (!isset($_SERVER['REQUEST_URI'])) {
@@ -122,6 +124,7 @@ function wp_tinywebdb_api_query() {
 				$tagName = get_query_var('tag');
 				$postid = wp_tinywebdb_api_get_postid($tagName);
 				$tagValue = get_post($postid);
+				if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
 				// $tagName = wp_tinywebdb_api_get_tagName($postid);
 
 				header('Cache-Control: no-cache, must-revalidate');
